@@ -1,0 +1,22 @@
+import org.apache.hadoop.io.IntWritable; 
+import org.apache.hadoop.io.Text; 
+import java.io.IOException; 
+import javax.naming.Context; 
+
+public class Reducer{ 
+protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException { 
+    int sum = 0; 
+
+    // Iterate through all the dislikes counts for a specific category and sum them up 
+
+    for (IntWritable value : values) { 
+
+      sum += value.get(); 
+
+   // Emit the category and the total dislikes count 
+
+      write(key, new IntWritable(sum)); 
+
+    } 
+
+  } 
