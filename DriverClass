@@ -1,0 +1,50 @@
+import org.apache.hadoop.conf.Configuration; 
+import org.apache.hadoop.fs.Path; 
+import org.apache.hadoop.io.IntWritable; 
+import org.apache.hadoop.io.Text; 
+import org.apache.hadoop.mapreduce.Job; 
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat; 
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat; 
+
+public class Driver { 
+  public static void main(String[] args) throws Exception { 
+
+    // Create a new Hadoop job 
+
+    Configuration conf = new Configuration(); 
+
+    Job job = Job.getInstance(conf, "YouTube Dislikes Analysis"); 
+    
+    // Set the main class 
+
+    job.setJarByClass(Driver.class); 
+
+ // Set the Mapper and Reducer classes 
+
+    job.setMapOutputValueClass(Mapper.class); 
+
+    job.setJarByClass(Reducer.class); 
+
+    // Set the input and output format classes 
+
+    job.setInputFormatClass(TextInputFormat.class); 
+
+    job.setOutputFormatClass(TextOutputFormat.class); 
+
+    // Set the output key and value classes 
+
+    job.setOutputKeyClass(Text.class); 
+
+    job.setOutputValueClass(IntWritable.class); 
+
+    // Set the input and output paths 
+
+    TextInputFormat.addInputPath(job, new Path("/input/youtube_dislikes_dataset.csv")); 
+
+    TextOutputFormat.setOutputPath(job, new Path("/output/top_disliked_categories")); 
+
+ // Submit the job and wait for completion 
+
+    System.exit(job.waitForCompletion(true) ? 0 : 1); 
+
+} } 
