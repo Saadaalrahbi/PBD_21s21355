@@ -1,0 +1,53 @@
+import org.apache.hadoop.io.IntWritable; 
+
+import org.apache.hadoop.io.LongWritable; 
+
+import org.apache.hadoop.io.Text; 
+
+import java.io.IOException; 
+
+import javax.naming.Context; 
+
+ public class Mapper { 
+
+  private static final int CATEGORY_INDEX = 3; 
+
+  private static final int DISLIKES_INDEX = 10; 
+
+  private Text category = new Text(); 
+
+  private IntWritable dislikesCount = new IntWritable(); 
+
+  protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException { 
+
+    // Split the line into fields 
+
+    String[] fields = value.toString().split(","); 
+
+    // Extract category and dislikes count 
+
+    if (fields.length > CATEGORY_INDEX && fields.length > DISLIKES_INDEX) { 
+
+      String categoryStr = fields[CATEGORY_INDEX]; 
+
+      int dislikes = Integer.parseInt(fields[DISLIKES_INDEX]); 
+
+   // Emit category and dislikes count as key-value pair 
+
+      category.set(categoryStr); 
+
+      dislikesCount.set(dislikes); 
+
+      write(category, dislikesCount); 
+
+    } 
+
+  } 
+
+private void write(Text category2, IntWritable dislikesCount2) { 
+
+// TODO Auto-generated method stub 
+ 
+} 
+
+} 
